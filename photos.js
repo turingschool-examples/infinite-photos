@@ -7,13 +7,15 @@ var TOTAL_PHOTO_COUNT = 6;
 
 var $ = function(sel) {
     return document.querySelector(sel);
-}
+};
+
 var $$ = function(sel) {
     return document.querySelectorAll(sel);
-}
+};
 
 function addPhoto(parentEl, animate) {
-    var imageUrl = 'photos/scotland' + (photoCount + 1) + '-small.jpg';
+    var imageUrl = 'photos/scotland' + (photoCount + 1) + '.jpg'; // bad
+    // var imageUrl = 'photos/scotland' + (photoCount + 1) + '-small.jpg'; // better
 
     photoCount = ++photoCount % TOTAL_PHOTO_COUNT;
 
@@ -43,6 +45,7 @@ function showFullPhoto(url) {
     overlay.hidden = false;
     setTimeout(function() { overlay.classList.remove('hidden'); });
 
+    // Hmmmm....
     window.addEventListener('resize', function(e) {
         resizeImage(img);
     });
@@ -52,20 +55,21 @@ function stopAnimation(node) {
     // Remove and re-add the node to stop the animation.
     var parent = node.parentNode;
     var sibling = node.nextSibling;
-    parent.insertBefore(parent.removeChild(node), sibling);   
+    parent.insertBefore(parent.removeChild(node), sibling);
 }
 
 function update() {
     var photoList = $('.photoList');
     var addedCount = 0;
-    
+
     var scrollTop = $('body').scrollTop;
-    var listHeight = photoList.clientHeight;
+    // var listHeight = photoList.clientHeight; // uncomment me when you uncomment line 71
 
     while (true) {
         var viewportBottom = scrollTop + window.innerHeight;
 
-        var loadingBoundary = listHeight + 100;
+        var loadingBoundary = photoList.clientHeight + 100; // bad
+        // var loadingBoundary = listHeight + 100; // better
 
         if (photoList.lastChild && viewportBottom < loadingBoundary)
             break;
